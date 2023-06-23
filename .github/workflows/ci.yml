@@ -7,6 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
+  # TODO: Migrate to use Docker image
+  # when Brakeman can be updated.
   brakeman:
     runs-on: ubuntu-latest
     name: Brakeman
@@ -15,6 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
+    - run: gem install rake -v 13.0.1
     - run: gem install brakeman -v 4.6.1
     - run: bundle exec brakeman -q -w2
 
