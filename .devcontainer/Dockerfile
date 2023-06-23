@@ -1,15 +1,9 @@
 # Defaults to username created by the VSCode devcontainer Ubuntu base image
 ARG USERNAME="vscode"
 
-# Ubuntu variant used. Tied to the base image.
-ARG VARIANT="jammy"
-
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/devcontainers/base:${VARIANT}
+FROM mcr.microsoft.com/devcontainers/base:jammy
 
 ARG USERNAME
-ARG VARIANT
-ARG TARGETPLATFORM
-ARG BUILDPLATFORM
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -39,8 +33,9 @@ RUN apt-get install -y \
   apt-get autoremove -y
 
 # Run as the target user
-USER ${USERNAME}
-ENV USER=${USERNAME}
+# Uses the username created by the VSCode devcontainer Ubuntu base image
+USER vscode
+ENV USER=vscode
 
 COPY ../.ruby-version /tmp/.ruby-version
 
