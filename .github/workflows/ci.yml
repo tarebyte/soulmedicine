@@ -29,12 +29,6 @@ jobs:
           --health-retries 5
     steps:
     - uses: actions/checkout@v3
-    - name: Install apt dependencies
-      run: |-
-        apt-get update
-        apt-get install -y python
-    - name: Install Bundler
-      run: gem install bundler -v 1.17.3
     - name: Bundle install
       run: bundle install -j $(nproc) --path vendor/bundle
     - uses: actions/setup-node@v3
