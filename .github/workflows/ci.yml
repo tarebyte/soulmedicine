@@ -9,13 +9,13 @@ on:
 jobs:
   brakeman:
     runs-on: ubuntu-latest
+    name: Brakeman
     env:
       BUNDLE_ONLY: brakeman
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
+    - run: gem install brakeman -v 4.6.1
     - run: bundle exec brakeman -q -w2
 
   javascript:
@@ -23,18 +23,15 @@ jobs:
     name: JavaScript and ERB Linting
     steps:
     - uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
     - uses: actions/setup-node@v3
       with:
         node-version: 10.13.x
         cache: yarn
-    - name: Install ERBLint
-      run: gem install erb_lint -v 0.1.3
     - run: yarn lint
-    - run: yarn lint-erb
 
   rails:
     runs-on: ubuntu-latest
+    name: "ERBLint, ESCheck, and RSpec"
     env:
       DATABASE_HOST: postgres
       RAILS_ENV: test
@@ -59,6 +56,10 @@ jobs:
       with:
         node-version: 10.13.x
         cache: yarn
+    - name: Install ERBLint
+      run: gem install erb_lint -v 0.1.3
+    - name: Lint ERB
+      run: yarn lint-erb
     - name: Precomple Rails assets
       run: bundle exec rails assets:precompile
     - name: Run ESCheck
