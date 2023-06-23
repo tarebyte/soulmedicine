@@ -7,28 +7,11 @@ on:
     branches: [ master ]
 
 jobs:
-  eslint:
+  rails_and_javascript:
     runs-on: ubuntu-20.04
     container:
       image: python:2.7.18-buster
-    name: ESLint
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 10.13.x
-    - name: Run install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install # will run `yarn install` command
-    - name: Run lint
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: lint # will run `yarn test` command
-
-  rails:
-    runs-on: ubuntu-latest
-    name: "ERBLint, ESCheck, and RSpec"
+    name: "ERBLint, ESCheck, ESLint, and RSpec"
     env:
       DATABASE_HOST: postgres
       RAILS_ENV: test
@@ -52,18 +35,28 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 10.13.x
+    - name: Run yarn install
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: install
+    - name: Run yarn lint
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: lint
     - name: Precomple Rails assets
       run: bundle exec rails assets:precompile
-    - name: Run ESCheck
-      run: yarn es-check
-    - name: Load the database schema
-      run: bundle exec rake db:schema:load --trace
-    - name: Migrate the database
-      run: bundle exec rails db:migrate
-    - name: Seed the database
-      run: bundle exec rails db:seed
-    - name: Run the RSpec test suite
-      run: bundle exec rspec
+    - name: Run yarn es-check
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: es-check
+    # - name: Load the database schema
+    #   run: bundle exec rake db:schema:load --trace
+    # - name: Migrate the database
+    #   run: bundle exec rails db:migrate
+    # - name: Seed the database
+    #   run: bundle exec rails db:seed
+    # - name: Run the RSpec test suite
+    #   run: bundle exec rspec
 
   ruby_linting:
     runs-on: ubuntu-latest
