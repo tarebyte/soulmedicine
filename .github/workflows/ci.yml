@@ -17,8 +17,10 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 10.13.x
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
+    - name: Run install
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: install # will run `yarn install` command
     - run: yarn lint
 
   rails:
