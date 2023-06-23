@@ -8,13 +8,12 @@ on:
 
 jobs:
   eslint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    container:
+      image: python:2.7.18-buster
     name: ESLint
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: 2.7
     - uses: actions/setup-node@v3
       with:
         node-version: 10.13.x
