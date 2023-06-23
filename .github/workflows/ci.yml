@@ -8,7 +8,7 @@ on:
 
 jobs:
   rails_and_javascript:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
       image: python:2.7.18-buster
     name: "ERBLint, ESCheck, ESLint, and RSpec"
