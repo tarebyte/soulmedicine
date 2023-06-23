@@ -34,23 +34,23 @@ jobs:
       run: apt-get install -yqq libpq-dev
     - name: Bundle install
       run: bundle install -j $(nproc) --path vendor/bundle
-    # - uses: actions/setup-node@v3
-    #   with:
-    #     node-version: 10.13.x
-    # - name: Run yarn install
-    #   uses: borales/actions-yarn@v4
-    #   with:
-    #     cmd: install
-    # - name: Run yarn lint
-    #   uses: borales/actions-yarn@v4
-    #   with:
-    #     cmd: lint
-    # - name: Precomple Rails assets
-    #   run: bundle exec rails assets:precompile
-    # - name: Run yarn es-check
-    #   uses: borales/actions-yarn@v4
-    #   with:
-    #     cmd: es-check
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 10.13.x
+    - name: Run yarn install
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: install
+    - name: Run yarn lint
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: lint
+    - name: Precomple Rails assets
+      run: bundle exec rails assets:precompile
+    - name: Run yarn es-check
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: es-check
     - name: Setup DB and run RSpec
       env:
         DATABASE_HOST: postgres
