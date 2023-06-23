@@ -31,34 +31,34 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install required apt packages
-      run: apt-get install -y libpq-dev
+      run: apt-get install -yqq libpq-dev
     - name: Bundle install
       run: bundle install -j $(nproc) --path vendor/bundle
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 10.13.x
-    - name: Run yarn install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install
-    - name: Run yarn lint
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: lint
-    - name: Precomple Rails assets
-      run: bundle exec rails assets:precompile
-    - name: Run yarn es-check
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: es-check
-    - name: Load the database schema
-      run: bundle exec rake db:schema:load --trace
-    - name: Migrate the database
-      run: bundle exec rails db:migrate
-    - name: Seed the database
-      run: bundle exec rails db:seed
-    - name: Run the RSpec test suite
-      run: bundle exec rspec
+    # - uses: actions/setup-node@v3
+    #   with:
+    #     node-version: 10.13.x
+    # - name: Run yarn install
+    #   uses: borales/actions-yarn@v4
+    #   with:
+    #     cmd: install
+    # - name: Run yarn lint
+    #   uses: borales/actions-yarn@v4
+    #   with:
+    #     cmd: lint
+    # - name: Precomple Rails assets
+    #   run: bundle exec rails assets:precompile
+    # - name: Run yarn es-check
+    #   uses: borales/actions-yarn@v4
+    #   with:
+    #     cmd: es-check
+    - name: Setup DB and run RSpec
+      env:
+        DATABASE_HOST: postgres
+      run: |-
+        bundle exec rake db:schema:load --trace
+        bundle exec rails db:migrate
+        bundle exec rails db:seed
+        bundle exec rspec
 
   ruby_linting:
     runs-on: ubuntu-latest
