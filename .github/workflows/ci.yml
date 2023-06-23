@@ -21,7 +21,10 @@ jobs:
       uses: borales/actions-yarn@v4
       with:
         cmd: install # will run `yarn install` command
-    - run: yarn lint
+    - name: Run lint
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: lint # will run `yarn test` command
 
   rails:
     runs-on: ubuntu-latest
