@@ -67,7 +67,7 @@ jobs:
 
   ruby_linting:
     runs-on: ubuntu-latest
-    name: Brakeman and Rubocop
+    name: Ruby Linting
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
