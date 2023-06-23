@@ -55,6 +55,7 @@ jobs:
       env:
         DATABASE_HOST: postgres
       run: |-
+        bundle exec rails db:create
         bundle exec rake db:schema:load --trace
         bundle exec rails db:migrate
         bundle exec rails db:seed
@@ -63,8 +64,6 @@ jobs:
   ruby_linting:
     runs-on: ubuntu-latest
     name: Brakeman and Rubocop
-    env:
-      BUNDLE_ONLY: lint
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
