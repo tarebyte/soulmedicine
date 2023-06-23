@@ -9,8 +9,8 @@ on:
 jobs:
   rails_and_javascript:
     runs-on: ubuntu-latest
-      container:
-        image: ruby:2.5.8-buster
+    container:
+      image: ruby:2.5.8-buster
     name: "ERBLint, ESCheck, ESLint, and RSpec"
     env:
       DATABASE_HOST: postgres
