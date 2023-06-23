@@ -7,22 +7,11 @@ on:
     branches: [ master ]
 
 jobs:
-  erb_lint:
-    runs-on: ubuntu-latest
-    name: ERBLint
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - run: gem install erb_lint -v 0.1.3
-    - run: erb_lint app/views/**/*.html{+*,}.erb
-
-  rails_and_javascript:
+  erb_javascript_rails:
     runs-on: ubuntu-latest
     container:
       image: ruby:2.5.8-buster
-    name: "ESCheck, ESLint, and RSpec"
+    name: "ERBLint, ESCheck, ESLint, and RSpec"
     env:
       RAILS_ENV: test
     services:
@@ -56,6 +45,10 @@ jobs:
       uses: borales/actions-yarn@v4
       with:
         cmd: lint
+    - name: Run ERBLint
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: lint-erb
     - name: Precomple Rails assets
       run: bundle exec rails assets:precompile
     - name: Run yarn es-check
@@ -83,4 +76,4 @@ jobs:
     # TODO: Migrate to use Docker image
     # when Brakeman can be updated.
     - run: bundle exec brakeman -q -w2
-    - run: bundle exec rubocop --format progress
+    - run: bundle exec rubocop --format progress --format github
