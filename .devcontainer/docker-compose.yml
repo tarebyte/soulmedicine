@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+
+    environment:
+      DATABASE_HOST: postgres
+      PYENV_ROOT: /home/vscode/.pyenv
+      REDIS_URL: redis-sidekiq://redis:6379
+      REDIS_CACHE_URL: redis-cache://redis:6380
+
+    volumes:
+      - ..:/workspaces:cached
+
+    command: /bin/sh -c "while sleep 1000; do :; done"
