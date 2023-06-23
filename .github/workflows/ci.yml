@@ -8,9 +8,7 @@ on:
 
 jobs:
   rails_and_javascript:
-    runs-on: ubuntu-latest
-    container:
-      image: python:2.7.18-buster
+    runs-on: ubuntu-18.04
     name: "ERBLint, ESCheck, ESLint, and RSpec"
     env:
       DATABASE_HOST: postgres
@@ -28,6 +26,10 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
+    - name: Install apt dependencies
+      run: |-
+        sudo apt-get update
+        sudo apt-get install -y python
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
