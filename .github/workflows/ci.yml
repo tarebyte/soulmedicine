@@ -13,7 +13,6 @@ jobs:
       image: ruby:2.5.8-buster
     name: "ERBLint, ESCheck, ESLint, and RSpec"
     env:
-      DATABASE_HOST: postgres
       RAILS_ENV: test
     services:
       postgres:
@@ -22,6 +21,8 @@ jobs:
           POSTGRES_USER: sm
           POSTGRES_PASSWORD: sm_password
         # Set health checks to wait until postgres has started
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -29,6 +30,8 @@ jobs:
           --health-retries 5
     steps:
     - uses: actions/checkout@v3
+    - name: Install required apt packages
+      run: apt-get install -y libpq-dev
     - name: Bundle install
       run: bundle install -j $(nproc) --path vendor/bundle
     - uses: actions/setup-node@v3
@@ -48,14 +51,14 @@ jobs:
       uses: borales/actions-yarn@v4
       with:
         cmd: es-check
-    # - name: Load the database schema
-    #   run: bundle exec rake db:schema:load --trace
-    # - name: Migrate the database
-    #   run: bundle exec rails db:migrate
-    # - name: Seed the database
-    #   run: bundle exec rails db:seed
-    # - name: Run the RSpec test suite
-    #   run: bundle exec rspec
+    - name: Load the database schema
+      run: bundle exec rake db:schema:load --trace
+    - name: Migrate the database
+      run: bundle exec rails db:migrate
+    - name: Seed the database
+      run: bundle exec rails db:seed
+    - name: Run the RSpec test suite
+      run: bundle exec rspec
 
   ruby_linting:
     runs-on: ubuntu-latest
