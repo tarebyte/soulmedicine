@@ -9,8 +9,6 @@ on:
 jobs:
   erb_javascript_rails:
     runs-on: ubuntu-latest
-    container:
-      image: ruby:2.5.8-buster
     name: "ERBLint, ESCheck, ESLint, and RSpec"
     env:
       RAILS_ENV: test
@@ -31,14 +29,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install required apt packages
-      run: apt-get install -yqq libpq-dev
-      # TODO: Migrate this to use ruby/setup-ruby when we're
-      # able to use a new version of Node.js.
-
-      # There is a python-2.7 dependency that can't be met without using the
-      # ruby-2.5.8-buster Docker image.
-    - name: Bundle install
-      run: bundle install -j $(nproc) --path vendor/bundle
+      run: apt-get install -yqq libpq-dev python2
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
     - uses: actions/setup-node@v3
       with:
         node-version: 10.13.x
