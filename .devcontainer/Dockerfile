@@ -18,6 +18,7 @@ RUN apt-get update && \
   libxml2-dev \
   libxslt-dev \
   libyaml-dev \
+  python2 \
   shared-mime-info \
   tmux \
   zlib1g-dev && \
@@ -39,8 +40,3 @@ COPY ../.node-version /tmp/.node-version
 RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv
 RUN git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
 RUN ~/.nodenv/bin/nodenv install $(cat /tmp/.node-version)
-
-COPY ../.python-version /tmp/.python-version
-
-RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-RUN ~/.pyenv/bin/pyenv install $(cat /tmp/.python-version)

@@ -21,7 +21,7 @@
 			"version": "latest"
 		},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-			"plugins": "ssh-agent npm rbenv nodenv pyenv zsh-autosuggestions",
+			"plugins": "ssh-agent npm rbenv nodenv zsh-autosuggestions",
 			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions"
 		}
 	},
