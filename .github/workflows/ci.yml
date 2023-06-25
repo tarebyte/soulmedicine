@@ -7,9 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-  javascript_and_erb:
+  erb_and_es_lint:
     runs-on: ubuntu-latest
-    name: "ESLint and ERBLint"
+    name: "ERBLint and ESLint"
     steps:
     - name: Install required apt packages
       run: sudo apt-get install -yqq python2
@@ -21,17 +21,16 @@ jobs:
       with:
         node-version: 10.13.x
         cache: 'yarn'
-    - name: Run yarn install
+    - name: Install dependencies
       run: yarn install
-
-    - name: Run ESLint
-      run: yarn lint
     - name: Run ERBLint
       run: yarn lint-erb
+    - name: Run ESLint
+      run: yarn lint
 
-  escheck_rails:
+  escheck_and_rails:
     runs-on: ubuntu-latest
-    name: "ESCheck and RSpec"
+    name: "ES Check and RSpec"
     services:
       postgres:
         image: postgres:10.5-alpine
@@ -47,6 +46,8 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
+    - name: Install required apt packages
+      run: sudo apt-get install -yqq python2
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
@@ -57,10 +58,8 @@ jobs:
         cache: 'yarn'
     - name: Precomple Rails assets
       run: bundle exec rails assets:precompile
-    - name: Run yarn es-check
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: es-check
+    - name: Run ES Check
+      run: yarn es-check
     - name: Setup DB and run RSpec
       env:
         DATABASE_HOST: postgres
@@ -72,7 +71,7 @@ jobs:
         bundle exec rails db:seed
         bundle exec rspec
 
-  ruby_linting:
+  brakeman_and_rubocop:
     runs-on: ubuntu-latest
     name: Ruby Linting
     steps:
