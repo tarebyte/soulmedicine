@@ -2,9 +2,12 @@
 
 set -e
 
-touch .env.local
+# Create .env.local with defaults if it doesn't already exist.
+if [ ! -f .env.local ]
+then
+  touch .env.local
 
-cat <<EOT >> .env.local
+  cat <<EOT >> .env.local
 STORYBLOK_TOKEN="..."
 
 # Firebase Authentication
@@ -19,6 +22,7 @@ FIREBASE_API_KEY="..."
 GOOGLE_ANALYTICS_ID="..."
 
 EOT
+fi
 
 gem install bundler:1.17.3
 rbenv rehash
