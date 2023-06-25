@@ -26,7 +26,7 @@ jobs:
           --health-retries 5
     steps:
     - name: Install required apt packages
-      run: sudo apt-get install -yqq python2
+      run: sudo apt-get install -y python2
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
