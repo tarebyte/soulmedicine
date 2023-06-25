@@ -24,6 +24,13 @@ RUN apt-get update && \
   zlib1g-dev && \
   apt-get autoremove -y
 
+# Install Overmind to run multiple processes at once.
+RUN curl --fail --location --output /usr/bin/overmind.gz "https://github.com/DarthSim/overmind/releases/download/v2.4.0/overmind-v2.4.0-linux-$(dpkg --print-architecture).gz" && \
+  curl --fail --location --output /tmp/overmind.gz.sha256sum "https://github.com/DarthSim/overmind/releases/download/v2.4.0/overmind-v2.4.0-linux-$(dpkg --print-architecture).gz.sha256sum" && \
+  echo $(cat /tmp/overmind.gz.sha256sum) /usr/bin/overmind.gz | sha256sum --check --status && \
+  gunzip /usr/bin/overmind.gz && \
+  chmod +x /usr/bin/overmind
+
 # Run as the target user
 # Uses the username created by the VSCode devcontainer Ubuntu base image
 USER vscode
