@@ -30,17 +30,17 @@ ENV USER=vscode
 
 COPY ../.ruby-version /tmp/.ruby-version
 
-RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv && \
-  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build && \
-  ~/.rbenv/bin/rbenv install $(cat /tmp/.ruby-version)
+RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+RUN git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+RUN ~/.rbenv/bin/rbenv install $(cat /tmp/.ruby-version)
 
 COPY ../.node-version /tmp/.node-version
 
-RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv && \
-  git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build && \
-  ~/.nodenv/bin/nodenv install $(cat /tmp/.node-version)
+RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv
+RUN git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
+RUN ~/.nodenv/bin/nodenv install $(cat /tmp/.node-version)
 
 COPY ../.python-version /tmp/.python-version
 
-RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
-  ~/.pyenv/bin/pyenv install $(cat /tmp/.python-version)
+RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+RUN ~/.pyenv/bin/pyenv install $(cat /tmp/.python-version)
