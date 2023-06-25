@@ -10,6 +10,8 @@ jobs:
   javascript_erb_and_rails:
     runs-on: ubuntu-latest
     name: "ES Check, ERBLint, ESLint, and RSpec"
+    env:
+      RAILS_ENV: test
     services:
       postgres:
         image: postgres:10.5-alpine
@@ -44,13 +46,12 @@ jobs:
     - name: Run ESLint
       run: yarn lint
     - name: Setup DB and run RSpec
-      env:
-        RAILS_ENV: test
       run: |-
         bundle exec rails db:create
         bundle exec rake db:schema:load --trace
         bundle exec rails db:migrate
         bundle exec rails db:seed
+        bundle exec rspec
 
   brakeman_and_rubocop:
     runs-on: ubuntu-latest
