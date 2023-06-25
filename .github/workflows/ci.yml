@@ -7,30 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-  erb_and_es_lint:
+  javascript_erb_and_rails:
     runs-on: ubuntu-latest
-    name: "ERBLint and ESLint"
-    steps:
-    - name: Install required apt packages
-      run: sudo apt-get install -yqq python2
-    - uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 10.13.x
-        cache: 'yarn'
-    - name: Install dependencies
-      run: yarn install
-    - name: Run ERBLint
-      run: yarn lint-erb
-    - name: Run ESLint
-      run: yarn lint
-
-  escheck_and_rails:
-    runs-on: ubuntu-latest
-    name: "ES Check and RSpec"
+    name: "ES Check, ERBLint, ESLint, and RSpec"
     services:
       postgres:
         image: postgres:10.5-alpine
@@ -52,14 +31,18 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    # - uses: actions/setup-node@v3
-    #   with:
-    #     node-version: 10.13.x
-    #     cache: 'yarn'
-    # - name: Precomple Rails assets
-    #   run: bundle exec rails assets:precompile
-    # - name: Run ES Check
-    #   run: yarn es-check
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 10.13.x
+        cache: 'yarn'
+    - name: Precomple Rails assets
+      run: bundle exec rails assets:precompile
+    - name: Run ES Check
+      run: yarn es-check
+    - name: Run ERBLint
+      run: yarn lint-erb
+    - name: Run ESLint
+      run: yarn lint
     - name: Setup DB and run RSpec
       env:
         RAILS_ENV: test
