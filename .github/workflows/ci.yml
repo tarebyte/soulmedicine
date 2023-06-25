@@ -62,7 +62,6 @@ jobs:
     #   run: yarn es-check
     - name: Setup DB and run RSpec
       env:
-        DATABASE_HOST: postgres
         RAILS_ENV: test
       run: |-
         bundle exec rails db:create
