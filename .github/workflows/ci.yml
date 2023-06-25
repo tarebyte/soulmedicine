@@ -7,11 +7,31 @@ on:
     branches: [ master ]
 
 jobs:
-  erb_javascript_rails:
+  javascript_and_erb:
     runs-on: ubuntu-latest
-    name: "ERBLint, ESCheck, ESLint, and RSpec"
-    env:
-      RAILS_ENV: test
+    name: "ESLint and ERBLint"
+    steps:
+    - name: Install required apt packages
+      run: sudo apt-get install -yqq python2
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 10.13.x
+        cache: 'yarn'
+    - name: Run yarn install
+      run: yarn install
+
+    - name: Run ESLint
+      run: yarn lint
+    - name: Run ERBLint
+      run: yarn lint-erb
+
+  escheck_rails:
+    runs-on: ubuntu-latest
+    name: "ESCheck and RSpec"
     services:
       postgres:
         image: postgres:10.5-alpine
@@ -28,27 +48,13 @@ jobs:
           --health-retries 5
     steps:
     - uses: actions/checkout@v3
-    - name: Install required apt packages
-      run: sudo apt-get install -yqq libpq-dev python2
-    - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
     - uses: actions/setup-node@v3
       with:
         node-version: 10.13.x
-    - name: Run yarn install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install
-    - name: Run yarn lint
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: lint
-    - name: Run ERBLint
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: lint-erb
+        cache: 'yarn'
     - name: Precomple Rails assets
       run: bundle exec rails assets:precompile
     - name: Run yarn es-check
@@ -58,6 +64,7 @@ jobs:
     - name: Setup DB and run RSpec
       env:
         DATABASE_HOST: postgres
+        RAILS_ENV: test
       run: |-
         bundle exec rails db:create
         bundle exec rake db:schema:load --trace
