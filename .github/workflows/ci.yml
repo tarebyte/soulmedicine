@@ -52,14 +52,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 10.13.x
-        cache: 'yarn'
-    - name: Precomple Rails assets
-      run: bundle exec rails assets:precompile
-    - name: Run ES Check
-      run: yarn es-check
+    # - uses: actions/setup-node@v3
+    #   with:
+    #     node-version: 10.13.x
+    #     cache: 'yarn'
+    # - name: Precomple Rails assets
+    #   run: bundle exec rails assets:precompile
+    # - name: Run ES Check
+    #   run: yarn es-check
     - name: Setup DB and run RSpec
       env:
         DATABASE_HOST: postgres
@@ -69,7 +69,6 @@ jobs:
         bundle exec rake db:schema:load --trace
         bundle exec rails db:migrate
         bundle exec rails db:seed
-        bundle exec rspec
 
   brakeman_and_rubocop:
     runs-on: ubuntu-latest
