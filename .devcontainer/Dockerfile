@@ -7,12 +7,8 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN echo "APT::Install-Recommends \"false\";" > /etc/apt/apt.conf
 
 RUN apt-get update && \
-  apt-get upgrade -y
-
-# Install build-essential before installing Homebrew as a dependency
-RUN apt-get install -y build-essential
-
-RUN apt-get install -y \
+  apt-get upgrade -y && \
+  apt-get install -y \
   build-essential \
   libffi-dev \
   libjemalloc-dev \
