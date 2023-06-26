@@ -8,7 +8,34 @@
 	"service": "app",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"postCreateCommand": ".devcontainer/post-create-command.sh",
-	"forwardPorts": [5000],
+	"forwardPorts": [
+		1025,
+		1080,
+		5000,
+		5432,
+		6379,
+		6380
+	],
+	"portsAttributes": {
+		"1025": {
+			"label": "mailcatcher1"
+		},
+		"1080": {
+			"label": "mailcatcher2"
+		},
+		"5000": {
+			"label": "web"
+		},
+		"5432": {
+			"label": "postgresql"
+		},
+		"6379": {
+			"label": "Redis (Sidekiq)"
+		},
+		"6380": {
+			"label": "Redis (Caching)"
+		}
+	},
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"configureZshAsDefaultShell": true,
