@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  erb_javascript_rails:
+    runs-on: ubuntu-latest
+    name: "ES Check, ERBLint, ESLint, and RSpec"
+    env:
+      RAILS_ENV: test
+    services:
+      postgres:
+        image: postgres:10.5-alpine
+        env:
+          POSTGRES_USER: sm
+          POSTGRES_PASSWORD: sm_password
+        # Set health checks to wait until postgres has started
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - name: Install required apt packages
+      run: sudo apt-get install -y python2
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 10.13.x
+        cache: 'yarn'
+    - name: Precomple Rails assets
+      run: bundle exec rails assets:precompile
+    - name: Run ES Check
+      run: yarn es-check
+    - name: Run ERBLint
+      run: yarn lint-erb
+    - name: Run ESLint
+      run: yarn lint
+    - name: Setup DB and run RSpec
+      run: |-
+        bundle exec rails db:create
+        bundle exec rake db:schema:load --trace
+        bundle exec rails db:migrate
+        bundle exec rails db:seed
+        bundle exec rspec
+
+  ruby_linting:
+    runs-on: ubuntu-latest
+    name: Ruby Linting
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - run: bundle exec brakeman -q -w2
+    - run: bundle exec rubocop --format progress --format github
