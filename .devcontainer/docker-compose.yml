@@ -1,13 +1,15 @@
 version: '3.7'
 
 services:
-  app:
+  workspace:
     build:
       context: .
       dockerfile: .devcontainer/Dockerfile
 
     environment:
       DATABASE_HOST: postgres
+      REDIS_URL: redis://redis-sidekiq:6379
+      REDIS_CACHE_URL: redis://redis-cache:6380
 
     volumes:
       - ..:/workspaces:cached

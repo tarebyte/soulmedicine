@@ -5,35 +5,35 @@
 		"../docker-compose.yml",
 		"docker-compose.yml"
 	],
-	"service": "app",
+	"service": "workspace",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"postCreateCommand": ".devcontainer/post-create-command.sh",
 	"forwardPorts": [
 		1025,
 		1080,
-		5000,
+		3000,
 		5432,
 		6379,
 		6380
 	],
 	"portsAttributes": {
 		"1025": {
-			"label": "mailcatcher1"
+			"label": "Mailcatcher - 1"
 		},
 		"1080": {
-			"label": "mailcatcher2"
+			"label": "Mailcatcher - 2"
 		},
-		"5000": {
-			"label": "web"
+		"3000": {
+			"label": "Web"
 		},
 		"5432": {
-			"label": "postgresql"
+			"label": "PostgreSQL"
 		},
 		"6379": {
-			"label": "Redis (Sidekiq)"
+			"label": "Redis - Sidekiq"
 		},
 		"6380": {
-			"label": "Redis (Caching)"
+			"label": "Redis - Caching"
 		}
 	},
 	"features": {
@@ -48,8 +48,11 @@
 		"ghcr.io/devcontainers/features/sshd:1": {
 			"version": "latest"
 		},
+		"ghcr.io/devcontainers/features/node:1": {
+      "version": "10.13"
+    },
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-			"plugins": "ssh-agent npm rbenv nodenv zsh-autosuggestions",
+			"plugins": "git npm nvm rbenv ssh-agent zsh-autosuggestions",
 			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions"
 		}
 	},

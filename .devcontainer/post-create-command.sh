@@ -27,7 +27,7 @@ fi
 gem install bundler:1.17.3
 rbenv rehash
 
+npm update -g npm
 npm install -g yarn
-nodenv rehash
 
 ./bin/setup

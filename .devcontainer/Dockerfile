@@ -42,8 +42,4 @@ RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 RUN git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 RUN ~/.rbenv/bin/rbenv install $(cat /tmp/.ruby-version)
 
-COPY ../.node-version /tmp/.node-version
-
-RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv
-RUN git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
-RUN ~/.nodenv/bin/nodenv install $(cat /tmp/.node-version)
+ENV OVERMIND_SOCK=/tmp/overmind.sock

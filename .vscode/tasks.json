@@ -1,19 +1,19 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "bin/server: run server",
-            "type": "shell",
-            "group": "build",
-            "command": "./bin/server",
-            "presentation": {
-                "panel": "dedicated"
-            },
-            "runOptions": {
-                "reevaluateOnRerun": false
-            }
-        }
-    ]
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "bin/server: run server",
+      "type": "shell",
+      "group": "build",
+      "command": "./bin/server",
+      "presentation": {
+        "panel": "dedicated"
+      },
+      "runOptions": {
+        "reevaluateOnRerun": false
+      }
+    }
+  ]
 }
